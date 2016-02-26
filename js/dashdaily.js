@@ -1,41 +1,7 @@
-var animateApp = angular.module('animateApp', ['ngRoute', 'ngAnimate']);
+var myApp = angular.module('myApp', []);
 
-animateApp.config(function($routeProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'pages/page-home.html',
-            controller: 'mainController'
-        })
-        .when('/about', {
-            templateUrl: 'pages/page-about.html',
-            controller: 'aboutController'
-        })
-        .when('/contact', {
-            templateUrl: 'pages/page-contact.html',
-            controller: 'contactController'
-        })
-        .when('/daily', {
-            templateUrl: 'pages/daily.html',
-            controller: 'dailyController'
-        });
-
-});
-
-animateApp.controller('mainController', function($scope) {
-    $scope.pageClass = 'page-home';
-});
-
-animateApp.controller('aboutController', function($scope) {
-    $scope.pageClass = 'page-about';
-});
-
-animateApp.controller('contactController', function($scope) {
-    $scope.pageClass = 'page-contact';
-});
-
-animateApp.controller('dailyController', function($scope) {
+myApp.controller('dashitems', function($scope, $interval, dateFilter) {
     
-
     var valueToPush = new Array();
     
     var registro = function(sistema, volume) {
@@ -68,8 +34,6 @@ animateApp.controller('dailyController', function($scope) {
     }, 1000);
     
     $scope.carregar = function (dat_carregar) {
-        
-        alert('sss');
         
         $scope.sla=0;
         $scope.vol_acum=0;
@@ -427,5 +391,6 @@ animateApp.controller('dailyController', function($scope) {
             text: "Volume vs SLA"
         }
     });
+    
     
 });
