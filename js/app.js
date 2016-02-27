@@ -17,6 +17,10 @@ animateApp.config(function($routeProvider) {
         .when('/daily', {
             templateUrl: 'pages/daily.html',
             controller: 'dailyController'
+        })
+        .when('/monthly', {
+            templateUrl: 'pages/monthly.html',
+            controller: 'dailyController'
         });
 
 });
@@ -31,6 +35,10 @@ animateApp.controller('aboutController', function($scope) {
 
 animateApp.controller('contactController', function($scope) {
     $scope.pageClass = 'page-contact';
+});
+
+animateApp.controller('contactController', function($scope) {
+    $scope.pageClass = 'page-monthly';
 });
 
 animateApp.controller('dailyController', function($scope, $filter, $interval) {
