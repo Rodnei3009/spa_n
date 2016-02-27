@@ -35,6 +35,8 @@ animateApp.controller('contactController', function($scope) {
 
 animateApp.controller('dailyController', function($scope, $filter, $interval) {
         
+    $scope.pageClass = 'page-daily';
+    
     var valueToPush = new Array();
     
     var registro = function(sistema, volume) {
