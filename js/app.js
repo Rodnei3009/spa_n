@@ -97,11 +97,11 @@ animateApp.controller('monthlyController', function($scope, $filter, $interval) 
     
 });
 
+
+/*novo daily====================*/
 animateApp.controller('dailyController', function($scope, $filter, $interval) {
-        
-    $scope.pageClass = 'page-daily';
     
-    var valueToPush = new Array();
+    $scope.pageClass = 'page-daily';
     
     var registro = function(sistema, volume) {
         this.sistema = sistema;
@@ -114,26 +114,26 @@ animateApp.controller('dailyController', function($scope, $filter, $interval) {
     $scope.dataSourceOri = [];
     $scope.dataSourceTOP5 = [];
     $scope.dataSourceCateg = [];
-
-    
-    //$scope.xenonPalette = ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
     
     $scope.ano_mes_dia = moment(new Date()).format('YYYYMMDD');//dateFilter(new Date(), 'yyyyMMdd');
     $scope.data_exibir = moment($scope.ano_mes_dia, "YYYYMMDD").format('DD MMMM YYYY');
     
-    
-    var qtd_dias = 0;
-    
-    data = new Date();
-        
     $scope.currentTime = moment(new Date()).format('HH:mm:ss');//dateFilter(new Date(), 'hh:mm:ss');
     
     var updateTime = $interval(function() {
         $scope.currentTime = moment(new Date()).format('HH:mm:ss');
     }, 1000);
     
-    $scope.carregar = function (dat_carregar) {
-                
+    
+    $scope.carregar = function (dat_carregar) {        
+        
+        $scope.sla          = 0;
+        $scope.abertos      = 0;
+        $scope.encerrados   = 0;
+        $scope.previstos    = 0;
+        $scope.no_prazo     = 0;
+        $scope.reabertos    = 0;
+        
         $scope.sla=0;
         $scope.vol_acum=0;
         $scope.reabertos=0;
@@ -146,50 +146,61 @@ animateApp.controller('dailyController', function($scope, $filter, $interval) {
 
         $scope.carregou = true;
         
+        
+        
         myData = new Firebase("https://itdashboard.firebaseio.com/ambev/volpi/" + dat_carregar.substring(0,6) + "/d" + $scope.ano_mes_dia);
         myData.on('value', function(snapshot){
             
-            myDataChamados = new Firebase("https://itdashboard.firebaseio.com/ambev/volpi/" + dat_carregar.substring(0,6) + "/d" + $scope.ano_mes_dia + "/chamados");
-            myDataChamados.on('value', function(snapshotChamados){    
+            if (snapshot.exists()) {
+                
+                myDataChamados = new Firebase("https://itdashboard.firebaseio.com/ambev/volpi/" + dat_carregar.substring(0,6) + "/d" + $scope.ano_mes_dia + "/chamados");
+                myDataChamados.on('value', function(snapshotChamados){    
 
-                $scope.dataSourceOri = [];
-                $scope.dataSourceTOP5 = [];
-                $scope.dataSourceCateg = [];
+                    $scope.dataSourceOri = [];
+                    $scope.dataSourceTOP5 = [];
+                    $scope.dataSourceCateg = [];
 
-                //$scope.sla          = snapshot.child('sla').val().toFixed(1);
-                $scope.abertos      = snapshot.child('abertos').val();
-                $scope.encerrados   = snapshot.child('encerrados').val();
-                $scope.previstos    = snapshot.child('previstos').val();
-                $scope.no_prazo     = snapshot.child('no_prazo').val();
-                $scope.reabertos    = snapshot.child('reabertos').val();                
+                    //$scope.sla          = snapshot.child('sla').val().toFixed(1);
+                    $scope.abertos      = snapshot.child('abertos').val();
+                    $scope.encerrados   = snapshot.child('encerrados').val();
+                    $scope.previstos    = snapshot.child('previstos').val();
+                    $scope.no_prazo     = snapshot.child('no_prazo').val();
+                    $scope.reabertos    = snapshot.child('reabertos').val();                
 
-                snapshotChamados.forEach(function(childSnapshotChamados) { //para cada chamado
+                    snapshotChamados.forEach(function(childSnapshotChamados) { //para cada chamado
 
-                        if (childSnapshotChamados.child('abertura').val().toString().substring(0,8) === $scope.ano_mes_dia) {                    
+                            if (childSnapshotChamados.child('abertura').val().toString().substring(0,8) === $scope.ano_mes_dia) {                    
 
-                            $scope.dataSourceOri.push({sistema: childSnapshotChamados.child('sistema').val().toString().substring(0,8), vol: 1});    
-                            $scope.dataSourceCateg.push({categoria: childSnapshotChamados.child('categoria').val(), val: 1});
+                                $scope.dataSourceOri.push({sistema: childSnapshotChamados.child('sistema').val().toString().substring(0,8), vol: 1});    
+                                $scope.dataSourceCateg.push({categoria: childSnapshotChamados.child('categoria').val(), val: 1});
 
-                        }
+                            }
 
-                });            
+                    });
+                    
+                    $scope.dataSourceOri = groupBySistema($scope.dataSourceOri);            
+                    var dChart = $("#bar-5").dxChart("instance");
+                    dChart.option({ dataSource: $scope.dataSourceOri });
+                    dChart._render();
 
-                $scope.dataSourceOri = groupBySistema($scope.dataSourceOri);            
-                var dChart = $("#bar-5").dxChart("instance");
-                dChart.option({ dataSource: $scope.dataSourceOri });
-                dChart._render();
-
-                $scope.dataSourceCateg = groupByCateg($scope.dataSourceCateg);
-                var dChartCateg = $("#bar-10").dxPieChart("instance");
-                dChartCateg.option({ dataSource: $scope.dataSourceCateg });
-                dChartCateg._render();
-
-                $scope.$apply();
+                    $scope.dataSourceCateg = groupByCateg($scope.dataSourceCateg);
+                    var dChartCateg = $("#bar-10").dxPieChart("instance");
+                    dChartCateg.option({ dataSource: $scope.dataSourceCateg });
+                    dChartCateg._render();
+                    
+                    $scope.$apply();
+                });
+                
                 $scope.carregou = false;
 
-            });
+            } else {
+                
+                $scope.carregou = false;
+            
+            }
+            
         });
-        $scope.carregou = false;
+        
         $scope.data_exibir = moment($scope.ano_mes_dia, "YYYYMMDD").format('DD MMMM YYYY');
     };
     
@@ -202,7 +213,7 @@ animateApp.controller('dailyController', function($scope, $filter, $interval) {
         $scope.ano_mes_dia = moment($scope.ano_mes_dia, "YYYYMMDD").add(1, 'day').format('YYYYMMDD');
         $scope.carregar($scope.ano_mes_dia);
     };
-
+    
     function groupBySistema(data) {
         
         var result = [];
@@ -276,7 +287,5 @@ animateApp.controller('dailyController', function($scope, $filter, $interval) {
         //result.sort(sortArray);
         return result;
     };
-    
-    
     
 });
