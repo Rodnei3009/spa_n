@@ -23,6 +23,8 @@ animateApp.config(function($routeProvider) {
             controller: 'monthlyController'
         });
 
+        $locationProvider.html5Mode(true);
+    
 });
 
 animateApp.controller('mainController', function($scope) {
