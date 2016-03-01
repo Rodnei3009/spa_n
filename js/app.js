@@ -40,7 +40,7 @@ animateApp.controller('contactController', function($scope) {
 });
 
 animateApp.controller('monthlyController', function($scope, $filter, $interval) {
-    
+    alert('entrou...');
     $scope.pageClass = 'page-monthly';
         
     $scope.ano_mes = moment(new Date()).format('YYYYMM'); //dateFilter(new Date(), 'yyyyMM');
@@ -102,7 +102,8 @@ animateApp.controller('monthlyController', function($scope, $filter, $interval) 
 
 /*novo daily====================*/
 animateApp.controller('dailyController', function($scope, $filter, $interval) {
-    
+    alert('entrou..');
+
     $scope.pageClass = 'page-daily';
     
     var registro = function(sistema, volume) {
