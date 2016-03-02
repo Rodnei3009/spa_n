@@ -41,18 +41,26 @@ animateApp.controller('contactController', function($scope) {
 
 animateApp.controller('monthlyController', function($scope, $filter, $interval) {
 
+    alert('entrou...');
+    
     $scope.pageClass = 'page-monthly';
         
     $scope.ano_mes = moment(new Date()).format('YYYYMM'); //dateFilter(new Date(), 'yyyyMM');
     $scope.data_exibir = moment($scope.ano_mes, "YYYYMM").format('MMMM YYYY');
         
+    alert('2');
+    
     $scope.currentTime = moment(new Date()).format('HH:mm:ss'); //dateFilter(new Date(), 'hh:mm:ss');
     
     var updateTime = $interval(function() {
         $scope.currentTime = moment(new Date()).format('HH:mm:ss');
     }, 1000);
     
+    alert('3');
+    
     $scope.carregar = function (dat_carregar) {        
+        
+        alert('carregar');
         
         $scope.sla          = 0;
         $scope.abertos      = 0;
@@ -65,7 +73,7 @@ animateApp.controller('monthlyController', function($scope, $filter, $interval) 
         
         myData = new Firebase("https://itdashboard.firebaseio.com/ambev/volpi/" + dat_carregar);
         myData.once('value', function(snapshot){
-            
+            alert('entrou firebase...');
             if (snapshot.exists()) {
                 $scope.sla          = snapshot.child('sla').val().toFixed(1);
                 $scope.abertos      = snapshot.child('abertos').val();
@@ -88,11 +96,13 @@ animateApp.controller('monthlyController', function($scope, $filter, $interval) 
     };
     
     $scope.before = function() {
+        alert('before');
         $scope.ano_mes = moment($scope.ano_mes, "YYYYMM").subtract(1, 'months').format('YYYYMM');
         $scope.carregar($scope.ano_mes);
     };
     
     $scope.after = function() {
+        alert('after');
         $scope.ano_mes = moment($scope.ano_mes, "YYYYMM").add(1, 'months').format('YYYYMM');
         $scope.carregar($scope.ano_mes);
     };
