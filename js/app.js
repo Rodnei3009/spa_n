@@ -44,8 +44,12 @@ animateApp.controller('monthlyController', function($scope, $filter, $interval) 
     alert('entrou...');
     
     $scope.pageClass = 'page-monthly';
-        
+    
+    alert('1');
+    
     $scope.ano_mes = moment(new Date()).format('YYYYMM'); //dateFilter(new Date(), 'yyyyMM');
+    alert('1,5');
+    
     $scope.data_exibir = moment($scope.ano_mes, "YYYYMM").format('MMMM YYYY');
         
     alert('2');
