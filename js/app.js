@@ -3,8 +3,8 @@ var animateApp = angular.module('animateApp', ['ngRoute', 'ngAnimate']);
 animateApp.config(function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'pages/page-home.html',
-            controller: 'mainController'
+            templateUrl: 'pages/monthly.html',
+            controller: 'monthlyController'
         })
         .when('/about', {
             templateUrl: 'pages/page-about.html',
