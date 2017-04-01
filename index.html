@@ -24,7 +24,7 @@
   
 
 </head>
-<body>
+<body ng-app="MyApp">
 <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-0">
     <div class="mbr-navbar__section mbr-section">
         <div class="mbr-section__container container">
@@ -54,13 +54,13 @@
 <br>    
 <br>
     
-<md-list ng-controller="ListCtrl" ng-cloak="" class="listdemoListControls" ng-app="MyApp">
+<md-list ng-controller="ListCtrl" ng-cloak="" class="listdemoListControls">
 
 
   <md-divider></md-divider>
 
   
-  <md-subheader class="md-no-sticky">Checkbox with Secondary Action</md-subheader>
+  <md-subheader class="md-no-sticky">Itens</md-subheader>
   <md-list-item ng-repeat="message in messages">
     <md-checkbox ng-model="message.selected"></md-checkbox>
     <p>{{message.title}}</p>
