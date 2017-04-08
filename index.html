@@ -67,7 +67,7 @@
   
 <br>
 <br>
-<br> 
+<br>
     
   <div ng-app="myApp">
     <div class="box-header">
@@ -80,104 +80,33 @@
       <ul class="todo-list">    
         <div class="form-group">
           <label>Categoria</label>
-          <select class="form-control">
-            <option>Alimentos</option>
-            <option>Produtos de limpeza</option>
-            <option>Higiene pessoal</option>
-            <option>Bebidas</option>
-          </select>
-        </div>   
           
-        <li>
-          <!-- drag handle -->
-          <!-- checkbox -->
-          <!-- todo text -->
-          <span class="text">Design a nice theme</span>
+          <!--    
+          <select class="form-control" placeholder="Search categoria" ng-options="categoria as categoria.label for categoria in categorias track by categoria.id" ng-model="selected"></select>           
+          -->
+            
+            
+          <select id="prodCategorias" class="form-control" placeholder="Search categoria" ng-model="selected" ng-options="categoria.label for categoria in categorias"></select>    
+             
+            
+        </div>   
+                  
+        <li ng-repeat="produto in produtos | filter: {categ: selected.id}">
+          <span class="text">{{produto.label}}</span>
           <!-- General tools such as edit or delete-->
           <div class="tools">
             <i class="fa fa-trash-o"></i>
           </div>
         </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Make the theme responsive</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>
-        <li>
-          <span class="text">Let theme shine like a star</span>
-          <div class="tools">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </li>  
+         
       </ul>
       
       <br>    
         
       <div class="input-group input-group-sm">
-        <input class="form-control input-sm" type="text" placeholder="digite o nome do produto...">  
+        <input ng-model="prod_incluir" class="form-control input-sm" type="text" placeholder="digite o nome do produto...">  
         <span class="input-group-btn">
-          <button class="btn btn-info btn-flat" type="button">Incluir</button>
+          <button class="btn btn-info btn-flat" type="button" ng-click="saveProduct(prod_incluir, selected.id)">Incluir</button>
         </span>
       </div><!-- /input-group -->
         
